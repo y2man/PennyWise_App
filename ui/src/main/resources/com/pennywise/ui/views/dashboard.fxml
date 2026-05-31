@@ -1,0 +1,300 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.geometry.*?>
+<?import org.kordamp.ikonli.javafx.*?>
+<HBox xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.pennywise.ui.controller.DashboardController"
+      styleClass="app-root" prefWidth="1280" prefHeight="800">
+
+  <!-- SIDEBAR -->
+  <VBox styleClass="sidebar" prefWidth="210" minWidth="210">
+    <padding><Insets top="20" right="12" bottom="16" left="12"/></padding>
+    <HBox styleClass="sidebar-logo" alignment="CENTER_LEFT" spacing="10">
+      <padding><Insets bottom="16"/></padding>
+      <FontIcon iconLiteral="fas-coins" iconSize="20" styleClass="logo-icon-fa"/>
+      <Label text="PennyWise" styleClass="logo-text"/>
+    </HBox>
+    <Label text="OVERVIEW" styleClass="nav-section"/>
+    <Button fx:id="navDashboard"  text="Dashboard"       styleClass="nav-btn,nav-active" maxWidth="Infinity" onAction="#navToDashboard" alignment="CENTER_LEFT" graphicTextGap="9"><graphic><FontIcon iconLiteral="fas-tachometer-alt" iconSize="13"/></graphic></Button>
+    <Button fx:id="navAccounts"   text="Accounts"        styleClass="nav-btn" maxWidth="Infinity" onAction="#navToAccounts"  alignment="CENTER_LEFT" graphicTextGap="9"><graphic><FontIcon iconLiteral="fas-university" iconSize="13"/></graphic></Button>
+    <Button fx:id="navAnalytics"  text="Analytics"       styleClass="nav-btn" maxWidth="Infinity" onAction="#navToAnalytics" alignment="CENTER_LEFT" graphicTextGap="9"><graphic><FontIcon iconLiteral="fas-chart-pie" iconSize="13"/></graphic></Button>
+    <Label text="TRANSACTIONS" styleClass="nav-section"/>
+    <Button fx:id="navIncome"    text="Income"    styleClass="nav-btn" maxWidth="Infinity" onAction="#navToIncome"    alignment="CENTER_LEFT" graphicTextGap="9"><graphic><FontIcon iconLiteral="fas-chart-line" iconSize="13"/></graphic></Button>
+    <Button fx:id="navExpenses"  text="Expenses"  styleClass="nav-btn" maxWidth="Infinity" onAction="#navToExpenses"  alignment="CENTER_LEFT" graphicTextGap="9"><graphic><FontIcon iconLiteral="fas-chart-bar" iconSize="13"/></graphic></Button>
+    <Button fx:id="navTransfers" text="Transfers" styleClass="nav-btn" maxWidth="Infinity" onAction="#navToTransfers" alignment="CENTER_LEFT" graphicTextGap="9"><graphic><FontIcon iconLiteral="fas-exchange-alt" iconSize="13"/></graphic></Button>
+    <Label text="PLANNING" styleClass="nav-section"/>
+    <Button fx:id="navBudget"  text="Budget"        styleClass="nav-btn" maxWidth="Infinity" onAction="#navToBudget"  alignment="CENTER_LEFT" graphicTextGap="9"><graphic><FontIcon iconLiteral="fas-crosshairs" iconSize="13"/></graphic></Button>
+    <Button fx:id="navSavings" text="Savings Goals" styleClass="nav-btn" maxWidth="Infinity" onAction="#navToSavings" alignment="CENTER_LEFT" graphicTextGap="9"><graphic><FontIcon iconLiteral="fas-piggy-bank" iconSize="13"/></graphic></Button>
+    <Button fx:id="navDebt"    text="Debt"          styleClass="nav-btn" maxWidth="Infinity" onAction="#navToDebt"    alignment="CENTER_LEFT" graphicTextGap="9"><graphic><FontIcon iconLiteral="fas-file-invoice" iconSize="13"/></graphic></Button>
+    <Label text="MANAGE" styleClass="nav-section"/>
+    <Button fx:id="navCategories" text="Categories"      styleClass="nav-btn" maxWidth="Infinity" onAction="#navToCategories" alignment="CENTER_LEFT" graphicTextGap="9"><graphic><FontIcon iconLiteral="fas-tags" iconSize="13"/></graphic></Button>
+    <Button fx:id="navAdd"        text="Add Transaction" styleClass="nav-btn" maxWidth="Infinity" onAction="#navToAdd"        alignment="CENTER_LEFT" graphicTextGap="9"><graphic><FontIcon iconLiteral="fas-plus" iconSize="13"/></graphic></Button>
+    <Region VBox.vgrow="ALWAYS"/>
+    <HBox styleClass="user-card" alignment="CENTER_LEFT" spacing="10"><padding><Insets top="12" right="8" bottom="12" left="8"/></padding>
+      <StackPane styleClass="user-avatar"><Label fx:id="sidebarInitials" text="U" styleClass="user-initials"/></StackPane>
+      <VBox HBox.hgrow="ALWAYS" spacing="2">
+        <Label fx:id="sidebarUserName"  text="User" styleClass="user-name"/>
+        <Label fx:id="sidebarUserEmail" text="—"    styleClass="user-email"/>
+      </VBox>
+      <Button styleClass="icon-btn-danger" onAction="#handleLogout"><graphic><FontIcon iconLiteral="fas-power-off" iconSize="13"/></graphic></Button>
+    </HBox>
+  </VBox>
+
+  <!-- MAIN -->
+  <VBox HBox.hgrow="ALWAYS">
+    <!-- TOPBAR -->
+    <HBox styleClass="topbar" alignment="CENTER_LEFT" spacing="12"><padding><Insets top="14" right="24" bottom="14" left="24"/></padding>
+      <Label fx:id="pageTitle" text="Dashboard" styleClass="page-title" HBox.hgrow="ALWAYS"/>
+      <Label text="Filter:" styleClass="color-muted"/>
+      <ComboBox fx:id="monthFilter" styleClass="pw-combo" prefWidth="150"/>
+      <HBox styleClass="profile-trigger" alignment="CENTER_LEFT" spacing="8">
+        <StackPane styleClass="user-avatar sm"><Label fx:id="topbarUserName" text="U" styleClass="user-initials"/></StackPane>
+        <FontIcon iconLiteral="fas-chevron-down" iconSize="10" styleClass="color-muted"/>
+      </HBox>
+    </HBox>
+
+    <ScrollPane fitToWidth="true" styleClass="content-scroll" VBox.vgrow="ALWAYS">
+      <VBox styleClass="content-area"><padding><Insets top="22" right="22" bottom="22" left="22"/></padding>
+
+        <!-- DASHBOARD -->
+        <VBox fx:id="sectionDashboard" spacing="18">
+          <HBox spacing="12">
+            <HBox styleClass="acc-mini card-mini" HBox.hgrow="ALWAYS" spacing="12" alignment="CENTER_LEFT"><padding><Insets top="14" right="14" bottom="14" left="14"/></padding>
+              <StackPane styleClass="acc-icon-wrap card-icon"><FontIcon iconLiteral="fas-credit-card" iconSize="16"/></StackPane>
+              <VBox><Label text="Card" styleClass="acc-mini-name"/><Label fx:id="cardBalLabel" text="0.00" styleClass="acc-mini-bal gold"/></VBox>
+            </HBox>
+            <HBox styleClass="acc-mini cash-mini" HBox.hgrow="ALWAYS" spacing="12" alignment="CENTER_LEFT"><padding><Insets top="14" right="14" bottom="14" left="14"/></padding>
+              <StackPane styleClass="acc-icon-wrap cash-icon"><FontIcon iconLiteral="fas-money-bill-wave" iconSize="16"/></StackPane>
+              <VBox><Label text="Cash" styleClass="acc-mini-name"/><Label fx:id="cashBalLabel" text="0.00" styleClass="acc-mini-bal green"/></VBox>
+            </HBox>
+            <HBox styleClass="acc-mini sav-mini" HBox.hgrow="ALWAYS" spacing="12" alignment="CENTER_LEFT"><padding><Insets top="14" right="14" bottom="14" left="14"/></padding>
+              <StackPane styleClass="acc-icon-wrap sav-icon"><FontIcon iconLiteral="fas-university" iconSize="16"/></StackPane>
+              <VBox><Label text="Savings" styleClass="acc-mini-name"/><Label fx:id="savBalLabel" text="0.00" styleClass="acc-mini-bal blue"/></VBox>
+            </HBox>
+            <HBox styleClass="acc-mini total-mini" HBox.hgrow="ALWAYS" spacing="12" alignment="CENTER_LEFT"><padding><Insets top="14" right="14" bottom="14" left="14"/></padding>
+              <StackPane styleClass="acc-icon-wrap total-icon"><FontIcon iconLiteral="fas-wallet" iconSize="16"/></StackPane>
+              <VBox><Label text="Net Worth" styleClass="acc-mini-name"/><Label fx:id="totalBalLabel" text="0.00" styleClass="acc-mini-bal"/></VBox>
+            </HBox>
+          </HBox>
+          <HBox spacing="12">
+            <VBox styleClass="stat-card stat-balance" HBox.hgrow="ALWAYS"><padding><Insets top="18" right="18" bottom="18" left="18"/></padding>
+              <HBox spacing="8" alignment="CENTER_LEFT"><StackPane styleClass="stat-icon-wrap"><FontIcon iconLiteral="fas-wallet" iconSize="13"/></StackPane><Label text="Net Balance" styleClass="stat-label"/></HBox>
+              <Label fx:id="balanceLabel" text="0.00" styleClass="stat-value"/><Label text="Always &gt;= 0" styleClass="stat-sub"/></VBox>
+            <VBox styleClass="stat-card stat-income" HBox.hgrow="ALWAYS"><padding><Insets top="18" right="18" bottom="18" left="18"/></padding>
+              <HBox spacing="8" alignment="CENTER_LEFT"><StackPane styleClass="stat-icon-wrap"><FontIcon iconLiteral="fas-chart-line" iconSize="13"/></StackPane><Label text="Total Income" styleClass="stat-label"/></HBox>
+              <Label fx:id="incomeLabel" text="0.00" styleClass="stat-value color-green"/><Label text="This period" styleClass="stat-sub"/></VBox>
+            <VBox styleClass="stat-card stat-expense" HBox.hgrow="ALWAYS"><padding><Insets top="18" right="18" bottom="18" left="18"/></padding>
+              <HBox spacing="8" alignment="CENTER_LEFT"><StackPane styleClass="stat-icon-wrap"><FontIcon iconLiteral="fas-chart-bar" iconSize="13"/></StackPane><Label text="Total Expenses" styleClass="stat-label"/></HBox>
+              <Label fx:id="expenseLabel" text="0.00" styleClass="stat-value color-red"/><Label text="This period" styleClass="stat-sub"/></VBox>
+            <VBox styleClass="stat-card stat-savings" HBox.hgrow="ALWAYS"><padding><Insets top="18" right="18" bottom="18" left="18"/></padding>
+              <HBox spacing="8" alignment="CENTER_LEFT"><StackPane styleClass="stat-icon-wrap"><FontIcon iconLiteral="fas-piggy-bank" iconSize="13"/></StackPane><Label text="Saved" styleClass="stat-label"/></HBox>
+              <Label fx:id="savedLabel" text="0.00" styleClass="stat-value color-purple"/><Label text="Across goals" styleClass="stat-sub"/></VBox>
+          </HBox>
+          <HBox spacing="12" alignment="TOP_LEFT">
+            <VBox styleClass="card" HBox.hgrow="ALWAYS">
+              <HBox styleClass="card-header" alignment="CENTER_LEFT"><Label text="Recent Transactions" styleClass="card-title" HBox.hgrow="ALWAYS"/><Label fx:id="txCount" text="0 items" styleClass="card-badge"/></HBox>
+              <ScrollPane fitToWidth="true" hbarPolicy="NEVER" vbarPolicy="AS_NEEDED" prefHeight="360" styleClass="history-scroll">
+                <content>
+                  <VBox fx:id="txList" styleClass="tx-list" spacing="0" fillWidth="true"/>
+                </content>
+              </ScrollPane>
+              <VBox fx:id="txEmptyState" alignment="CENTER" styleClass="empty-state"><padding><Insets top="28" bottom="28"/></padding>
+                <FontIcon iconLiteral="fas-coins" iconSize="28" styleClass="empty-icon"/><Label text="No transactions yet" styleClass="empty-title"/>
+              </VBox>
+            </VBox>
+            <VBox styleClass="card" prefWidth="300" minWidth="280">
+              <HBox styleClass="card-header"><Label text="Quick Add" styleClass="card-title"/></HBox>
+              <VBox spacing="10"><padding><Insets top="14" right="14" bottom="14" left="14"/></padding>
+                <HBox spacing="8">
+                  <ToggleButton fx:id="quickIncomeBtn"  text="Income"  styleClass="type-btn,type-inc" HBox.hgrow="ALWAYS" maxWidth="Infinity" graphicTextGap="6"><graphic><FontIcon iconLiteral="fas-chart-line" iconSize="11"/></graphic></ToggleButton>
+                  <ToggleButton fx:id="quickExpenseBtn" text="Expense" styleClass="type-btn,type-exp" HBox.hgrow="ALWAYS" maxWidth="Infinity" graphicTextGap="6"><graphic><FontIcon iconLiteral="fas-chart-bar" iconSize="11"/></graphic></ToggleButton>
+                </HBox>
+                <Label text="Description" styleClass="field-label"/>
+                <TextField fx:id="quickText" styleClass="pw-field" promptText="e.g. Grocery run"/>
+                <HBox spacing="10">
+                  <VBox HBox.hgrow="ALWAYS"><Label text="Amount ()" styleClass="field-label"/><TextField fx:id="quickAmount" styleClass="pw-field" promptText="0.00"/></VBox>
+                  <VBox HBox.hgrow="ALWAYS"><Label text="Date" styleClass="field-label"/><DatePicker fx:id="quickDate" styleClass="pw-field" maxWidth="Infinity"/></VBox>
+                </HBox>
+                <Label text="Account" styleClass="field-label"/>
+                <ComboBox fx:id="quickAccount" styleClass="pw-combo" maxWidth="Infinity"/>
+                <Label text="Category" styleClass="field-label"/>
+                <ComboBox fx:id="quickCategory" styleClass="pw-combo" maxWidth="Infinity"/>
+                <Button text="Add Transaction" styleClass="btn-primary" maxWidth="Infinity" onAction="#handleQuickAdd"/>
+              </VBox>
+            </VBox>
+          </HBox>
+          <HBox spacing="12">
+            <VBox styleClass="card" HBox.hgrow="ALWAYS"><HBox styleClass="card-header" alignment="CENTER_LEFT"><Label text="Budget Overview" styleClass="card-title" HBox.hgrow="ALWAYS"/><Button text="Manage" styleClass="link-btn" onAction="#navToBudget"/></HBox><VBox fx:id="dashBudgetList" spacing="0"/></VBox>
+            <VBox styleClass="card" HBox.hgrow="ALWAYS"><HBox styleClass="card-header" alignment="CENTER_LEFT"><Label text="Savings Goals" styleClass="card-title" HBox.hgrow="ALWAYS"/><Button text="View all" styleClass="link-btn" onAction="#navToSavings"/></HBox><VBox fx:id="dashSavingsList" spacing="0"/></VBox>
+            <VBox styleClass="card" HBox.hgrow="ALWAYS"><HBox styleClass="card-header" alignment="CENTER_LEFT"><Label text="Debt Tracker" styleClass="card-title" HBox.hgrow="ALWAYS"/><Button text="Manage" styleClass="link-btn" onAction="#navToDebt"/></HBox><VBox fx:id="dashDebtList" spacing="0"/></VBox>
+          </HBox>
+        </VBox>
+
+        <!-- ACCOUNTS -->
+        <VBox fx:id="sectionAccounts" spacing="16" visible="false" managed="false">
+          <HBox spacing="12">
+            <VBox styleClass="account-card card-color" HBox.hgrow="ALWAYS"><padding><Insets top="20" right="20" bottom="20" left="20"/></padding>
+              <HBox spacing="12" alignment="CENTER_LEFT"><StackPane styleClass="acf-icon card-icon"><FontIcon iconLiteral="fas-credit-card" iconSize="19"/></StackPane><VBox><Label text="Card" styleClass="acf-name"/><Label text="Bank / debit card" styleClass="acf-sub"/></VBox></HBox>
+              <Region prefHeight="12"/><Label fx:id="cardBalFull" text="0.00" styleClass="acf-balance gold"/><Region prefHeight="12"/>
+              <HBox spacing="24"><VBox><Label text="INCOME" styleClass="acf-stat-label"/><Label fx:id="cardIncomeLabel" text="0.00" styleClass="acf-stat-val green"/></VBox><VBox><Label text="EXPENSES" styleClass="acf-stat-label"/><Label fx:id="cardExpenseLabel" text="0.00" styleClass="acf-stat-val red"/></VBox></HBox>
+              <Region prefHeight="12"/><Button text="Add Transaction" styleClass="btn-add" maxWidth="Infinity" onAction="#openAddCardIncome" graphicTextGap="6"><graphic><FontIcon iconLiteral="fas-plus" iconSize="11"/></graphic></Button>
+            </VBox>
+            <VBox styleClass="account-card cash-color" HBox.hgrow="ALWAYS"><padding><Insets top="20" right="20" bottom="20" left="20"/></padding>
+              <HBox spacing="12" alignment="CENTER_LEFT"><StackPane styleClass="acf-icon cash-icon"><FontIcon iconLiteral="fas-money-bill-wave" iconSize="19"/></StackPane><VBox><Label text="Cash" styleClass="acf-name"/><Label text="Physical cash" styleClass="acf-sub"/></VBox></HBox>
+              <Region prefHeight="12"/><Label fx:id="cashBalFull" text="0.00" styleClass="acf-balance green"/><Region prefHeight="12"/>
+              <HBox spacing="24"><VBox><Label text="INCOME" styleClass="acf-stat-label"/><Label fx:id="cashIncomeLabel" text="0.00" styleClass="acf-stat-val green"/></VBox><VBox><Label text="EXPENSES" styleClass="acf-stat-label"/><Label fx:id="cashExpenseLabel" text="0.00" styleClass="acf-stat-val red"/></VBox></HBox>
+              <Region prefHeight="12"/><Button text="Add Transaction" styleClass="btn-add" maxWidth="Infinity" onAction="#openAddCashIncome" graphicTextGap="6"><graphic><FontIcon iconLiteral="fas-plus" iconSize="11"/></graphic></Button>
+            </VBox>
+            <VBox styleClass="account-card sav-color" HBox.hgrow="ALWAYS"><padding><Insets top="20" right="20" bottom="20" left="20"/></padding>
+              <HBox spacing="12" alignment="CENTER_LEFT"><StackPane styleClass="acf-icon sav-icon"><FontIcon iconLiteral="fas-university" iconSize="19"/></StackPane><VBox><Label text="Savings" styleClass="acf-name"/><Label text="Savings account" styleClass="acf-sub"/></VBox></HBox>
+              <Region prefHeight="12"/><Label fx:id="savBalFull" text="0.00" styleClass="acf-balance blue"/><Region prefHeight="12"/>
+              <HBox spacing="24"><VBox><Label text="INCOME" styleClass="acf-stat-label"/><Label fx:id="savIncomeLabel" text="0.00" styleClass="acf-stat-val green"/></VBox><VBox><Label text="EXPENSES" styleClass="acf-stat-label"/><Label fx:id="savExpenseLabel" text="0.00" styleClass="acf-stat-val red"/></VBox></HBox>
+              <Region prefHeight="12"/><Button text="Add Transaction" styleClass="btn-add" maxWidth="Infinity" onAction="#openAddSavingsIncome" graphicTextGap="6"><graphic><FontIcon iconLiteral="fas-plus" iconSize="11"/></graphic></Button>
+            </VBox>
+          </HBox>
+          <VBox styleClass="card"><HBox styleClass="card-header" alignment="CENTER_LEFT" spacing="8"><FontIcon iconLiteral="fas-exchange-alt" iconSize="13" styleClass="color-gold"/><Label text="Transfer Between Accounts" styleClass="card-title"/></HBox>
+            <GridPane hgap="14" vgap="12"><padding><Insets top="14" right="14" bottom="14" left="14"/></padding>
+              <columnConstraints><ColumnConstraints hgrow="ALWAYS"/><ColumnConstraints hgrow="ALWAYS"/><ColumnConstraints hgrow="ALWAYS"/><ColumnConstraints hgrow="ALWAYS"/><ColumnConstraints hgrow="ALWAYS"/></columnConstraints>
+              <Label text="From" styleClass="field-label" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+              <Label text="To"   styleClass="field-label" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+              <Label text="Amount ()" styleClass="field-label" GridPane.columnIndex="2" GridPane.rowIndex="0"/>
+              <Label text="Date"      styleClass="field-label" GridPane.columnIndex="3" GridPane.rowIndex="0"/>
+              <Label text="Note"      styleClass="field-label" GridPane.columnIndex="4" GridPane.rowIndex="0"/>
+              <ComboBox fx:id="tfFrom" styleClass="pw-combo" maxWidth="Infinity" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+              <ComboBox fx:id="tfTo"   styleClass="pw-combo" maxWidth="Infinity" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+              <TextField fx:id="tfAmount" styleClass="pw-field" promptText="0.00" GridPane.columnIndex="2" GridPane.rowIndex="1"/>
+              <DatePicker fx:id="tfDate" styleClass="pw-field" maxWidth="Infinity" GridPane.columnIndex="3" GridPane.rowIndex="1"/>
+              <TextField fx:id="tfNote" styleClass="pw-field" promptText="Optional" GridPane.columnIndex="4" GridPane.rowIndex="1"/>
+              <Button text="Transfer" styleClass="btn-primary" onAction="#handleTransfer" GridPane.columnIndex="0" GridPane.rowIndex="2" GridPane.columnSpan="5" graphicTextGap="6"><graphic><FontIcon iconLiteral="fas-exchange-alt" iconSize="11"/></graphic></Button>
+            </GridPane>
+          </VBox>
+        </VBox>
+
+        <!-- ANALYTICS (placeholder) -->
+        <VBox fx:id="sectionAnalytics" spacing="16" visible="false" managed="false">
+          <VBox styleClass="card" alignment="CENTER"><padding><Insets top="60" bottom="60"/></padding>
+            <FontIcon iconLiteral="fas-chart-pie" iconSize="48" styleClass="empty-icon"/>
+            <Label text="Analytics" styleClass="empty-title"/>
+            <Label text="Charts coming soon — data is tracked, connect a chart library." styleClass="empty-sub"/>
+          </VBox>
+        </VBox>
+
+        <!-- INCOME -->
+        <VBox fx:id="sectionIncome" spacing="14" visible="false" managed="false">
+          <HBox alignment="CENTER_LEFT"><VBox HBox.hgrow="ALWAYS" spacing="2"><Label text="THIS PERIOD" styleClass="mini-label"/><Label fx:id="incomeTotalLabel" text="0.00" styleClass="mini-val green"/></VBox>
+            <VBox spacing="2" style="-fx-padding:0 20 0 0"><Label text="ENTRIES" styleClass="mini-label"/><Label fx:id="incomeCountLabel" text="0" styleClass="mini-val"/></VBox>
+            <Button text="Add Income" styleClass="btn-add" onAction="#openAddIncome" graphicTextGap="6"><graphic><FontIcon iconLiteral="fas-plus" iconSize="11"/></graphic></Button></HBox>
+          <VBox styleClass="card">
+            <HBox styleClass="card-header" alignment="CENTER_LEFT"><Label text="Income Entries" styleClass="card-title" HBox.hgrow="ALWAYS"/><TextField fx:id="incomeSearch" styleClass="search-field" promptText="Search..." prefWidth="160"/></HBox>
+            <VBox fx:id="incomeList" styleClass="data-list" spacing="0"/>
+          </VBox>
+        </VBox>
+
+        <!-- EXPENSES -->
+        <VBox fx:id="sectionExpenses" spacing="14" visible="false" managed="false">
+          <HBox alignment="CENTER_LEFT"><VBox HBox.hgrow="ALWAYS" spacing="2"><Label text="THIS PERIOD" styleClass="mini-label"/><Label fx:id="expenseTotalLabel" text="0.00" styleClass="mini-val red"/></VBox>
+            <VBox spacing="2" style="-fx-padding:0 20 0 0"><Label text="ENTRIES" styleClass="mini-label"/><Label fx:id="expenseCountLabel" text="0" styleClass="mini-val"/></VBox>
+            <Button text="Add Expense" styleClass="btn-add" onAction="#openAddExpense" graphicTextGap="6"><graphic><FontIcon iconLiteral="fas-plus" iconSize="11"/></graphic></Button></HBox>
+          <VBox styleClass="card">
+            <HBox styleClass="card-header" alignment="CENTER_LEFT"><Label text="Expense Entries" styleClass="card-title" HBox.hgrow="ALWAYS"/><TextField fx:id="expenseSearch" styleClass="search-field" promptText="Search..." prefWidth="160"/></HBox>
+            <VBox fx:id="expenseList" styleClass="data-list" spacing="0"/>
+          </VBox>
+        </VBox>
+
+        <!-- TRANSFERS -->
+        <VBox fx:id="sectionTransfers" spacing="14" visible="false" managed="false">
+          <HBox alignment="CENTER_LEFT"><VBox HBox.hgrow="ALWAYS" spacing="2"><Label text="TOTAL" styleClass="mini-label"/><Label fx:id="transferTotalLabel" text="0.00" styleClass="mini-val blue"/></VBox>
+            <VBox spacing="2"><Label text="ENTRIES" styleClass="mini-label"/><Label fx:id="transferCountLabel" text="0" styleClass="mini-val"/></VBox></HBox>
+          <VBox styleClass="card">
+            <HBox styleClass="card-header"><Label text="Transfer History" styleClass="card-title"/></HBox>
+            <ScrollPane fitToWidth="true" hbarPolicy="NEVER" vbarPolicy="AS_NEEDED" prefHeight="340" styleClass="history-scroll">
+              <content>
+                <VBox fx:id="transferList" styleClass="data-list" spacing="0" fillWidth="true"/>
+              </content>
+            </ScrollPane>
+          </VBox>
+        </VBox>
+
+        <!-- BUDGET -->
+        <VBox fx:id="sectionBudget" spacing="14" visible="false" managed="false">
+          <HBox alignment="CENTER_LEFT"><VBox HBox.hgrow="ALWAYS" spacing="2"><Label text="BUDGETED" styleClass="mini-label"/><Label fx:id="budgetTotalLabel" text="0.00" styleClass="mini-val gold"/></VBox>
+            <VBox spacing="2" style="-fx-padding:0 20 0 0"><Label text="REMAINING" styleClass="mini-label"/><Label fx:id="budgetRemainingLabel" text="0.00" styleClass="mini-val green"/></VBox>
+            <Button text="New Budget" styleClass="btn-add" onAction="#openAddBudget" graphicTextGap="6"><graphic><FontIcon iconLiteral="fas-plus" iconSize="11"/></graphic></Button></HBox>
+          <FlowPane fx:id="budgetCards" hgap="14" vgap="14"/>
+          <VBox fx:id="budgetEmpty" alignment="CENTER" styleClass="empty-state"><padding><Insets top="40" bottom="40"/></padding>
+            <FontIcon iconLiteral="fas-crosshairs" iconSize="32" styleClass="empty-icon"/><Label text="No budgets set" styleClass="empty-title"/><Label text="Create a budget to track spending limits" styleClass="empty-sub"/></VBox>
+        </VBox>
+
+        <!-- SAVINGS -->
+        <VBox fx:id="sectionSavings" spacing="14" visible="false" managed="false">
+          <HBox alignment="CENTER_LEFT"><VBox HBox.hgrow="ALWAYS" spacing="2"><Label text="TOTAL SAVED" styleClass="mini-label"/><Label fx:id="savingsTotalLabel" text="0.00" styleClass="mini-val gold"/></VBox>
+            <VBox spacing="2" style="-fx-padding:0 20 0 0"><Label text="GOALS" styleClass="mini-label"/><Label fx:id="savingsCountLabel" text="0" styleClass="mini-val"/></VBox>
+            <Button text="New Goal" styleClass="btn-add" onAction="#openAddSavings" graphicTextGap="6"><graphic><FontIcon iconLiteral="fas-plus" iconSize="11"/></graphic></Button></HBox>
+          <FlowPane fx:id="savingsCards" hgap="14" vgap="14"/>
+          <VBox fx:id="savingsEmpty" alignment="CENTER" styleClass="empty-state"><padding><Insets top="40" bottom="40"/></padding>
+            <FontIcon iconLiteral="fas-piggy-bank" iconSize="32" styleClass="empty-icon"/><Label text="No savings goals" styleClass="empty-title"/><Label text="Set a goal and start saving" styleClass="empty-sub"/></VBox>
+        </VBox>
+
+        <!-- DEBT -->
+        <VBox fx:id="sectionDebt" spacing="14" visible="false" managed="false">
+          <HBox fx:id="debtReminderBanner" styleClass="reminder-banner" alignment="CENTER_LEFT" spacing="12" visible="false" managed="false"><padding><Insets top="12" right="14" bottom="12" left="14"/></padding>
+            <FontIcon iconLiteral="fas-lightbulb" iconSize="16" styleClass="color-gold"/>
+            <VBox HBox.hgrow="ALWAYS"><Label text="Pending expense waiting" styleClass="reminder-title"/><Label text="Add a loan below — it credits your balance — then retry your expense." styleClass="reminder-sub" wrapText="true"/></VBox>
+          </HBox>
+          <HBox alignment="CENTER_LEFT"><VBox HBox.hgrow="ALWAYS" spacing="2"><Label text="TOTAL OWED" styleClass="mini-label"/><Label fx:id="debtTotalLabel" text="0.00" styleClass="mini-val red"/></VBox>
+            <VBox spacing="2" style="-fx-padding:0 20 0 0"><Label text="TOTAL PAID" styleClass="mini-label"/><Label fx:id="debtPaidLabel" text="0.00" styleClass="mini-val green"/></VBox>
+            <Button text="Add Debt / Loan" styleClass="btn-add" onAction="#openAddDebt" graphicTextGap="6"><graphic><FontIcon iconLiteral="fas-plus" iconSize="11"/></graphic></Button></HBox>
+          <FlowPane fx:id="debtCards" hgap="14" vgap="14"/>
+          <VBox fx:id="debtEmpty" alignment="CENTER" styleClass="empty-state"><padding><Insets top="40" bottom="40"/></padding>
+            <FontIcon iconLiteral="fas-file-invoice" iconSize="32" styleClass="empty-icon"/><Label text="No debts tracked" styleClass="empty-title"/><Label text="Add a debt — amount is credited to your balance" styleClass="empty-sub"/></VBox>
+        </VBox>
+
+        <!-- CATEGORIES -->
+        <VBox fx:id="sectionCategories" spacing="16" visible="false" managed="false">
+          <HBox spacing="14">
+            <VBox styleClass="card" HBox.hgrow="ALWAYS">
+              <HBox styleClass="card-header" alignment="CENTER_LEFT" spacing="8"><FontIcon iconLiteral="fas-chart-line" iconSize="12" styleClass="color-green"/><Label text="Income Categories" styleClass="card-title" HBox.hgrow="ALWAYS"/></HBox>
+              <VBox spacing="10"><padding><Insets top="12" right="14" bottom="14" left="14"/></padding>
+                <FlowPane fx:id="incomeChipBox" hgap="8" vgap="8"/>
+                <HBox spacing="8"><TextField fx:id="newIncomeCategory" styleClass="pw-field" promptText="Add category..." HBox.hgrow="ALWAYS"/><Button text="+ Add" styleClass="btn-ghost" onAction="#addIncomeCategory"/></HBox>
+              </VBox>
+            </VBox>
+            <VBox styleClass="card" HBox.hgrow="ALWAYS">
+              <HBox styleClass="card-header" alignment="CENTER_LEFT" spacing="8"><FontIcon iconLiteral="fas-chart-bar" iconSize="12" styleClass="color-red"/><Label text="Expense Categories" styleClass="card-title" HBox.hgrow="ALWAYS"/></HBox>
+              <VBox spacing="10"><padding><Insets top="12" right="14" bottom="14" left="14"/></padding>
+                <FlowPane fx:id="expenseChipBox" hgap="8" vgap="8"/>
+                <HBox spacing="8"><TextField fx:id="newExpenseCategory" styleClass="pw-field" promptText="Add category..." HBox.hgrow="ALWAYS"/><Button text="+ Add" styleClass="btn-ghost" onAction="#addExpenseCategory"/></HBox>
+              </VBox>
+            </VBox>
+          </HBox>
+        </VBox>
+
+        <!-- ADD TRANSACTION -->
+        <VBox fx:id="sectionAdd" spacing="16" visible="false" managed="false">
+          <VBox styleClass="card" maxWidth="560">
+            <HBox styleClass="card-header"><Label text="Add New Transaction" styleClass="card-title"/></HBox>
+            <VBox spacing="12"><padding><Insets top="14" right="16" bottom="16" left="16"/></padding>
+              <HBox spacing="8">
+                <ToggleButton fx:id="incomeBtn2"  text="Income"  styleClass="type-btn,type-inc" HBox.hgrow="ALWAYS" maxWidth="Infinity" graphicTextGap="6"><graphic><FontIcon iconLiteral="fas-chart-line" iconSize="11"/></graphic></ToggleButton>
+                <ToggleButton fx:id="expenseBtn2" text="Expense" styleClass="type-btn,type-exp" HBox.hgrow="ALWAYS" maxWidth="Infinity" graphicTextGap="6"><graphic><FontIcon iconLiteral="fas-chart-bar" iconSize="11"/></graphic></ToggleButton>
+              </HBox>
+              <Label text="Description" styleClass="field-label"/>
+              <TextField fx:id="text2" styleClass="pw-field" promptText="e.g. Monthly salary"/>
+              <HBox spacing="12">
+                <VBox HBox.hgrow="ALWAYS"><Label text="Amount ()" styleClass="field-label"/><TextField fx:id="amount2" styleClass="pw-field" promptText="0.00"/></VBox>
+                <VBox HBox.hgrow="ALWAYS"><Label text="Date" styleClass="field-label"/><DatePicker fx:id="date2" styleClass="pw-field" maxWidth="Infinity"/></VBox>
+              </HBox>
+              <Label text="Account" styleClass="field-label"/>
+              <ComboBox fx:id="account2" styleClass="pw-combo" maxWidth="Infinity"/>
+              <Label text="Category" styleClass="field-label"/>
+              <ComboBox fx:id="category2" styleClass="pw-combo" maxWidth="Infinity"/>
+              <Button text="Add Transaction" styleClass="btn-primary" maxWidth="Infinity" onAction="#handleAdd2"/>
+            </VBox>
+          </VBox>
+        </VBox>
+
+      </VBox>
+    </ScrollPane>
+  </VBox>
+</HBox>
