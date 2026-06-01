@@ -48,10 +48,6 @@
       <Label fx:id="pageTitle" text="Dashboard" styleClass="page-title" HBox.hgrow="ALWAYS"/>
       <Label text="Filter:" styleClass="color-muted"/>
       <ComboBox fx:id="monthFilter" styleClass="pw-combo" prefWidth="150"/>
-      <HBox styleClass="profile-trigger" alignment="CENTER_LEFT" spacing="8">
-        <StackPane styleClass="user-avatar sm"><Label fx:id="topbarUserName" text="U" styleClass="user-initials"/></StackPane>
-        <FontIcon iconLiteral="fas-chevron-down" iconSize="10" styleClass="color-muted"/>
-      </HBox>
     </HBox>
 
     <ScrollPane fitToWidth="true" styleClass="content-scroll" VBox.vgrow="ALWAYS">

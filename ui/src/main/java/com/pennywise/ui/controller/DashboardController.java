@@ -35,7 +35,7 @@ public class DashboardController {
 
     // User labels
     @FXML
-    private Label sidebarInitials, sidebarUserName, sidebarUserEmail, topbarUserName;
+    private Label sidebarInitials, sidebarUserName, sidebarUserEmail;
 
     // Sections
     @FXML
@@ -187,7 +187,6 @@ public class DashboardController {
         setL(sidebarInitials, SessionStore.getInitials());
         setL(sidebarUserName, SessionStore.getName());
         setL(sidebarUserEmail, SessionStore.getEmail());
-        setL(topbarUserName, SessionStore.getName());
 
         if (quickDate != null) {
             quickDate.setValue(LocalDate.now());
@@ -204,7 +203,7 @@ public class DashboardController {
                 monthFilter.getItems().add(now.minusMonths(i).format(DateTimeFormatter.ofPattern("yyyy-MM")));
             }
             monthFilter.setValue("All time");
-            monthFilter.setOnAction(e -> refreshAll());
+            monthFilter.setOnAction(e -> loadAll());
         }
 
         // Quick type
@@ -227,6 +226,7 @@ public class DashboardController {
             quickAccount.getItems().addAll("card", "cash", "savings");
             quickAccount.setValue("card");
         }
+
         if (tfFrom != null) {
             tfFrom.getItems().addAll("card", "cash", "savings");
             tfFrom.setValue("card");
@@ -487,10 +487,9 @@ public class DashboardController {
             return;
         }
         Executors.newSingleThreadExecutor().execute(() -> {
-            String month = (monthFilter != null && !"All time".equals(monthFilter.getValue())) ? monthFilter.getValue() : null;
-            String txPath = month != null ? "/transactions?month=" + month : "/transactions";
-
             try {
+                String month = (monthFilter != null && !"All time".equals(monthFilter.getValue())) ? monthFilter.getValue() : null;
+                String txPath = month != null ? "/transactions?month=" + month : "/transactions";
                 JsonNode txNode = ApiClient.get(txPath);
                 transactions = ApiClient.mapper.convertValue(txNode, new TypeReference<>() {
                 });
