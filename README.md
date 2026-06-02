@@ -35,11 +35,7 @@ mvn javafx:run
 - Register a new account on first launch
 
 ## Email / OTP Setup (optional)
-For password reset emails, edit `backend/src/main/resources/application.properties`:
-```properties
-spring.mail.username=your-gmail@gmail.com
-spring.mail.password=your-16-char-app-password
-```
+Create `backend/.env` from `backend/.env.example` and fill in your values there. The backend loads that file automatically when you run it from the `backend` folder.
 Get a Gmail App Password: myaccount.google.com → Security → App Passwords
 
 **If not configured:** The OTP code prints to the backend console window instead.

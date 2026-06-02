@@ -10,7 +10,8 @@ import java.util.Properties;
 
 /**
  * Safe mail configuration — returns a no-op sender when credentials not set.
- * This prevents Spring Boot from crashing at startup when mail is not configured.
+ * This prevents Spring Boot from crashing at startup when mail is not
+ * configured.
  */
 @Configuration
 public class MailConfig {
@@ -27,13 +28,17 @@ public class MailConfig {
     @Value("${spring.mail.password:NOT_SET}")
     private String password;
 
+    private boolean isConfigured(String value) {
+        return value != null && !value.trim().isEmpty() && !"NOT_SET".equals(value) && !value.contains("your-email");
+    }
+
     @Bean
     public JavaMailSender javaMailSender() {
         JavaMailSenderImpl sender = new JavaMailSenderImpl();
         sender.setHost(host);
         sender.setPort(port);
 
-        if (!"NOT_SET".equals(username) && !username.contains("your-email")) {
+        if (isConfigured(username) && isConfigured(password)) {
             sender.setUsername(username);
             sender.setPassword(password);
         }
