@@ -1,10 +1,11 @@
 package com.pennywise.model;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import java.math.BigDecimal; import java.time.LocalDate; import java.time.LocalDateTime;
 @Entity @Table(name = "account_transfers")
 public class AccountTransfer {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY) private Long id;
-    @ManyToOne(fetch = FetchType.LAZY) @JoinColumn(name = "user_id") private User user;
+    @ManyToOne(fetch = FetchType.LAZY) @JoinColumn(name = "user_id") @JsonIgnore private User user;
     private String note;
     @Column(name = "from_account") private String fromAccount;
     @Column(name = "to_account") private String toAccount;

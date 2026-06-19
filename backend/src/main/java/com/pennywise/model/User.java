@@ -1,4 +1,5 @@
 package com.pennywise.model;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.*;
 import org.hibernate.annotations.CreationTimestamp;
@@ -10,7 +11,7 @@ public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private @JsonIgnore Long id;
     @Column(unique = true, nullable = false)
     private String email;
     @Column(nullable = false)

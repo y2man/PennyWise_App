@@ -1,10 +1,11 @@
 package com.pennywise.model;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import java.math.BigDecimal; import java.time.LocalDate; import java.time.LocalDateTime;
 @Entity @Table(name = "savings_goals")
 public class SavingsGoal {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY) private Long id;
-    @ManyToOne(fetch = FetchType.LAZY) @JoinColumn(name = "user_id") private User user;
+    @ManyToOne(fetch = FetchType.LAZY) @JoinColumn(name = "user_id") @JsonIgnore private User user;
     private String name;
     @Column(precision = 15, scale = 2) private BigDecimal target;
     @Column(precision = 15, scale = 2) private BigDecimal saved = BigDecimal.ZERO;
